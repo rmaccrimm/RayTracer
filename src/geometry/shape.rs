@@ -5,15 +5,29 @@ pub trait Intersect {
 }
 
 pub struct Sphere {
-    c: R3,
-    r: f64,
+    pub center: R3,
+    pub radius: f64,
+}
+
+pub struct Plane {
+    pub center: R3,
+    pub normal: R3,
+    pub perp: R3, // Points in direction of width
+    pub width: f64,
+    pub height: f64,
+}
+
+pub struct Cube {
+    pub center: R3,
+    pub up: R3,
+    pub width: f64
 }
 
 impl Sphere {
     pub fn new(center: R3, radius: f64) -> Sphere {
         Sphere {
-            c: center,
-            r: radius,
+            center,
+            radius,
         }
     }
 }
@@ -22,8 +36,8 @@ impl Intersect for Sphere {
     fn intersect(&self, r: Ray) -> Option<Ray> {
         let l = r.dir.normalize();
         let o = r.pt;
-        let c = self.c;
-        let rad = self.r;
+        let c = self.center;
+        let rad = self.radius;
         let x = (l.dot(o - c)).powi(2) - ((o - c).norm().powi(2) - rad.powi(2));
         if x < 0.0 {
             return None;
