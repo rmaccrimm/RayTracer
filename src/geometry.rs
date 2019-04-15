@@ -1,12 +1,26 @@
 #![allow(dead_code)]
 use std::ops::{Add, Sub, Mul};
 
-#[derive(Copy, Clone)]
-#[derive(Debug)]
+pub mod shape;
+pub mod viewport;
+
+#[derive(Copy, Clone, Debug)]
 pub struct R3 {
-    x: f64,
-    y: f64,
-    z: f64  
+    pub x: f64,
+    pub y: f64,
+    pub z: f64, 
+}
+
+#[derive(Debug)]
+pub struct Ray {
+    pub pt: R3,
+    pub dir: R3,
+}
+
+impl Ray {
+    pub fn new(pt: R3, dir: R3) -> Ray {
+        Ray { pt, dir }
+    }
 }
 
 pub const X: R3 = R3 { x: 1.0, y: 0.0, z: 0.0 };
@@ -47,7 +61,7 @@ impl Mul<R3> for f64 {
 
 impl R3 {
     pub fn new(x: f64, y: f64, z: f64) -> R3 {
-        R3 {x, y, z}
+        R3 { x, y, z }
     }
 
     pub fn zero() -> R3 {
