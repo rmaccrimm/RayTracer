@@ -1,8 +1,8 @@
-use super::{R3, Ray};
-
-pub trait Intersect {
-    fn intersect(&self, r: Ray) -> Option<Ray>;
-}
+use super::{
+    R3, 
+    Ray, 
+    Intersect
+};
 
 pub struct Sphere {
     pub center: R3,

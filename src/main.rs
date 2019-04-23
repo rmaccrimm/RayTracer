@@ -7,10 +7,12 @@ use sdl2::{
     render::Canvas
 };
 use geometry::{
-    R3, 
-    Ray, 
-    shape::{Sphere, Intersect}, 
-    viewport::Viewport
+    R3,
+    Ray,
+    Intersect,
+    shape::Sphere,
+    Viewport,
+    Scene
 };
 
 fn get_canvas(context: &sdl2::Sdl) -> Canvas<Window> {
@@ -39,12 +41,32 @@ fn main() {
         for j in 0..viewport.h {
             let r = viewport.get_ray(i, j);
             let mut color = match t.intersect(r) {
-                Some(_) => Color::RGB(255, 0, 0),
+                Some(refl) => {
+                    let mut i = refl.dir.dot(-1.0 * geometry::X);
+                    i = if i < 0.0 {
+                        0.0
+                    }
+                    else {
+                        i
+                    };
+                    let r = (i * 255.0) as u8;
+                    Color::RGB(r, 0, 0)
+                }
                 None => Color::RGB(255, 255, 255)
             };
             let r = viewport.get_ray(i, j);
             color = match s.intersect(r) {
-                Some(_) => Color::RGB(0, 255, 0),
+                Some(refl) => {
+                    let mut i = refl.dir.dot(-1.0 * geometry::X);
+                    i = if i < 0.0 {
+                        0.0
+                    }
+                    else {
+                        i
+                    };
+                    let g = (i * 255.0) as u8;
+                    Color::RGB(0, g, 0)
+                }
                 None => color
             };
             canvas.set_draw_color(color);
